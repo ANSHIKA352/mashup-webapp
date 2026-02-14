@@ -5,14 +5,13 @@ import os
 import smtplib
 from email.message import EmailMessage
 
-
 app = Flask(__name__)
 
 @app.route("/")
 def home():
     return render_template("index.html")
 
-@app.route("/create", methods=["POST"])
+
 @app.route("/create", methods=["POST"])
 def create():
     singer = request.form["singer"]
@@ -31,14 +30,10 @@ def create():
 
     return "Mashup created and sent to your email!"
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
-
-
 
 def send_email(receiver_email):
-    sender_email = "your_email@gmail.com"
-    app_password = "your_16_character_app_password"
+    sender_email = os.environ.get("SENDER_EMAIL")
+    app_password = os.environ.get("EMAIL_PASSWORD")
 
     msg = EmailMessage()
     msg["Subject"] = "Your Mashup File"
@@ -55,5 +50,6 @@ def send_email(receiver_email):
         smtp.send_message(msg)
 
 
-
-
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
