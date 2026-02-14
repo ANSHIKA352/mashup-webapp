@@ -31,9 +31,9 @@ def create():
 
     return "Mashup created and sent to your email!"
 
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
+
 
 
 def send_email(receiver_email):
@@ -53,4 +53,7 @@ def send_email(receiver_email):
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
         smtp.login(sender_email, app_password)
         smtp.send_message(msg)
+
+
+
 
